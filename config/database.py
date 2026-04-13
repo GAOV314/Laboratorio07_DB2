@@ -1,12 +1,13 @@
+import os
+from dotenv import load_dotenv
 from neo4j import GraphDatabase
 
-# Define las conexiones
-URI = NEO4J_URI
-AUTH = (NEO4J_USERNAME,NEO4J_PASSWORD)
+load_dotenv()
 
-# Crear la instancia driver
-driver = GraphDatabase.driver(URI, auth = AUTH)
+URI = os.getenv("NEO4J_URI")
+# Usamos el USERNAME y PASSWORD del .env
+AUTH = (os.getenv("NEO4J_USERNAME"), os.getenv("NEO4J_PASSWORD"))
 
-with driver:
-    driver.verify_connectivity()
-    print("Connection established.")
+# El driver solo necesita URI y AUTH. 
+# El '+ssc' en tu URI ya maneja el problema del certificado.
+driver = GraphDatabase.driver(URI, auth=AUTH)
